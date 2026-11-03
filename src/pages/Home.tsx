@@ -23,7 +23,8 @@ import { Button } from '../components/ui/Button';
 import { ToolGrid } from '../components/ToolCard';
 import { useSession } from '../context/session';
 import { useToast } from '../context/toast';
-import { acceptAttr, downloadBlob, formatBytes, matchesKind, pluralize } from '../lib/files';
+import { acceptAttr, formatBytes, matchesKind, pluralize } from '../lib/files';
+import { saveFile } from '../lib/inapp';
 import { POPULAR_TOOLS, TOOLS, getTool, searchTools, type Tool, type ToolCategory } from '../lib/tools';
 import { usePageMeta } from '../lib/seo';
 
@@ -285,7 +286,7 @@ function RecentFiles() {
           {recent.map((r) => (
             <li key={r.id} className="w-56 shrink-0">
               <button
-                onClick={() => downloadBlob(r.blob, r.name)}
+                onClick={() => saveFile(r.blob, r.name)}
                 className="flex w-full items-center gap-3 rounded-xl border border-slate-200 p-3 text-left transition hover:border-brand-400 dark:border-white/10"
                 title={`Download ${r.name}`}
               >

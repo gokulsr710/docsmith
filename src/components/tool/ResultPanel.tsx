@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, CheckCircle2, Download, FileArchive, FileText, RotateCcw, TrendingDown } from 'lucide-react';
 import { Button } from '../ui/Button';
-import { downloadBlob, formatBytes, percentSaved, zipFiles } from '../../lib/files';
+import { formatBytes, percentSaved, zipFiles } from '../../lib/files';
+import { saveFile } from '../../lib/inapp';
 import { useToast } from '../../context/toast';
 import type { ToolResult } from './useToolRun';
 
@@ -15,11 +16,11 @@ export function ResultPanel({ result, onReset, onBack, resetLabel }: { result: T
   useEffect(() => () => previews.forEach((u) => u && URL.revokeObjectURL(u)), [previews]);
 
   const downloadAll = async () => {
-    if (single) return downloadBlob(outputs[0].blob, outputs[0].name);
+    if (single) return saveFile(outputs[0].blob, outputs[0].name);
     try {
       setZipping(0);
       const zip = await zipFiles(outputs, (p) => setZipping(p));
-      downloadBlob(zip, result.zipName);
+      saveFile(zip, result.zipName);
     } catch {
       toast.error('Could not create the ZIP file', 'Try downloading the files individually.');
     } finally {
@@ -102,7 +103,7 @@ export function ResultPanel({ result, onReset, onBack, resetLabel }: { result: T
                     )}
                   </p>
                 </div>
-                <Button variant="ghost" size="sm" icon={Download} onClick={() => downloadBlob(o.blob, o.name)} aria-label={`Download ${o.name}`}>
+                <Button variant="ghost" size="sm" icon={Download} onClick={() => saveFile(o.blob, o.name)} aria-label={`Download ${o.name}`}>
                   <span className="hidden sm:inline">Download</span>
                 </Button>
               </li>

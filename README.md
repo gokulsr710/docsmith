@@ -68,7 +68,7 @@ src/
 
 ## Configuration
 
-- **Contact email**: set `CONTACT_EMAIL` in `src/lib/seo.ts` (defaults to a placeholder).
+- **Contact email**: `CONTACT_EMAIL` in `src/lib/seo.ts` (used by the Contact page’s Gmail and email-app buttons).
 - **Brand name**: `SITE_NAME` in `src/lib/seo.ts`, plus `index.html` and `components/layout/Logo.tsx`.
 - **Brand colour**: the `--color-brand-*` tokens in `src/index.css`.
 

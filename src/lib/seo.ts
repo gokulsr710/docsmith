@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 export const SITE_NAME = 'Docsmith';
 /** Creator credit shown in the footer. */
 export const CREATOR_INSTAGRAM = 'https://www.instagram.com/_gr_tech_circuits/';
-/** Change this to your support address before deploying. */
-export const CONTACT_EMAIL = 'support@example.com';
+/** Where the Contact page sends messages. */
+export const CONTACT_EMAIL = 'bitbuilders1729@gmail.com';
 
 function setMeta(name: string, content: string, attr: 'name' | 'property' = 'name') {
   let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${name}"]`);

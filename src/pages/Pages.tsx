@@ -1,8 +1,8 @@
 import { useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { Cpu, FileQuestion, Mail, Send, ShieldCheck, Trash2 } from 'lucide-react';
+import { Check, Copy, Cpu, FileQuestion, Mail, Send, ShieldCheck, Trash2 } from 'lucide-react';
 import { ToolGrid } from '../components/ToolCard';
-import { Button, ButtonLink } from '../components/ui/Button';
+import { Button, ButtonLink, buttonClass } from '../components/ui/Button';
 import { Field } from '../components/ui/controls';
 import { CATEGORY_ICONS, TOOLS, type ToolCategory } from '../lib/tools';
 import { CONTACT_EMAIL, SITE_NAME, usePageMeta } from '../lib/seo';
@@ -132,29 +132,54 @@ export function Contact() {
   usePageMeta('Contact', `Get in touch with the ${SITE_NAME} team.`);
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
-  const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`${SITE_NAME} feedback${name ? ` from ${name}` : ''}`)}&body=${encodeURIComponent(message)}`;
+  const [copied, setCopied] = useState(false);
+  const subject = `${SITE_NAME} feedback${name.trim() ? ` from ${name.trim()}` : ''}`;
+  const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+  // Opens Gmail's compose window in the browser — works even without an email app installed.
+  const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(CONTACT_EMAIL)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.prompt('Copy our email address:', CONTACT_EMAIL);
+    }
+  };
+
   return (
     <Prose title="Contact us" intro="Found a bug, have a feature idea or a question? We’d love to hear from you.">
       <form
         className="card space-y-5 p-5 sm:p-6"
         onSubmit={(e) => {
           e.preventDefault();
-          window.location.href = mailto;
+          window.open(gmail, '_blank', 'noopener');
         }}
       >
         <Field label="Your name" htmlFor="c-name">
           <input id="c-name" className="input" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" />
         </Field>
-        <Field label="Message" htmlFor="c-msg" hint="This opens your email app with the message ready to send.">
+        <Field label="Message" htmlFor="c-msg" hint="Your message opens ready to send — just press Send.">
           <textarea id="c-msg" required rows={5} className="input h-auto py-3" value={message} onChange={(e) => setMessage(e.target.value)} />
         </Field>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex flex-col gap-2 sm:flex-row">
           <Button type="submit" icon={Send} disabled={!message.trim()}>
-            Compose email
+            Send with Gmail
           </Button>
-          <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center gap-2 text-sm font-medium text-brand-600 hover:underline dark:text-brand-400">
-            <Mail className="size-4" aria-hidden /> {CONTACT_EMAIL}
+          <a href={mailto} aria-disabled={!message.trim()} className={buttonClass('secondary', 'md', !message.trim() ? 'pointer-events-none opacity-60' : '')}>
+            <Mail className="size-4" aria-hidden /> Use my email app
           </a>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4 text-sm text-slate-500 dark:border-white/10 dark:text-slate-400">
+          <span>Or email us directly:</span>
+          <a href={`mailto:${CONTACT_EMAIL}`} className="font-medium text-brand-600 hover:underline dark:text-brand-400">
+            {CONTACT_EMAIL}
+          </a>
+          <button type="button" onClick={copyEmail} className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-medium hover:bg-slate-100 dark:hover:bg-white/10" aria-label="Copy email address">
+            {copied ? <Check className="size-3.5" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
+            {copied ? 'Copied' : 'Copy'}
+          </button>
         </div>
       </form>
     </Prose>

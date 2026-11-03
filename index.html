@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Docsmith — Free PDF & Image Tools in Your Browser</title>
+    <meta name="description" content="Convert, merge, split, compress and edit PDF and image files for free. Everything runs locally in your browser — your files never leave your device." />
+    <meta name="keywords" content="image to pdf, merge pdf, split pdf, compress pdf, pdf to jpg, jpg to png, resize image, compress image" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0d12" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Docsmith — Free PDF & Image Tools" />
+    <meta property="og:description" content="Private, browser-based PDF and image tools. No uploads, no sign-up." />
+    <meta name="twitter:card" content="summary" />
+    <script>
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ShieldCheck } from 'lucide-react';
+import { Instagram, ShieldCheck } from 'lucide-react';
 import { TOOLS } from '../../lib/tools';
 import { Logo } from './Logo';
+import { CREATOR_INSTAGRAM } from '../../lib/seo';
 
 export function Footer() {
   const pdf = TOOLS.filter((t) => t.categories[0] === 'pdf');
@@ -42,7 +43,23 @@ export function Footer() {
         </FooterCol>
       </div>
       <div className="border-t border-slate-100 dark:border-white/5">
-        <p className="mx-auto max-w-7xl px-4 py-6 text-xs text-slate-400 sm:px-6">© {new Date().getFullYear()} Docsmith. All processing happens locally in your browser.</p>
+        <div className="mx-auto flex max-w-7xl flex-col-reverse items-center gap-3 px-4 py-6 text-center sm:flex-row sm:justify-between sm:px-6 sm:text-left">
+          <p className="text-xs text-slate-400">© {new Date().getFullYear()} Docsmith. All processing happens locally in your browser.</p>
+          <a
+            href={CREATOR_INSTAGRAM}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1.5 pr-3.5 pl-1.5 text-sm text-slate-600 shadow-soft transition hover:border-pink-300 hover:text-slate-900 dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-pink-500/40 dark:hover:text-white"
+            aria-label="Made by @_gr_tech_circuits on Instagram (opens in a new tab)"
+          >
+            <span className="flex size-7 items-center justify-center rounded-full bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 text-white transition-transform group-hover:scale-110">
+              <Instagram className="size-4" aria-hidden />
+            </span>
+            <span>
+              Made by <span className="font-semibold">@_gr_tech_circuits</span>
+            </span>
+          </a>
+        </div>
       </div>
     </footer>
   );

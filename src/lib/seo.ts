@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 
 export const SITE_NAME = 'Docsmith';
+/** Creator credit shown in the footer. */
+export const CREATOR_INSTAGRAM = 'https://www.instagram.com/_gr_tech_circuits/';
 /** Change this to your support address before deploying. */
 export const CONTACT_EMAIL = 'support@example.com';
 

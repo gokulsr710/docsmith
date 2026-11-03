@@ -77,8 +77,8 @@ src/
 The app is a static single-page app. Build with `npm run build` and host the `dist/` folder anywhere. Because it uses client-side routing, the host must serve `index.html` for unknown paths:
 
 - **Vercel**: import the repo, framework “Vite”. `vercel.json` already contains the SPA rewrite.
-- **Netlify**: build command `npm run build`, publish directory `dist`. `public/_redirects` already contains the SPA rule.
-- **Cloudflare Pages**: build command `npm run build`, output `dist`. Cloudflare serves `index.html` for unknown routes automatically.
+- **Netlify**: import the repo; `netlify.toml` already sets the build command, output folder and SPA rule.
+- **Cloudflare (Workers or Pages)**: build command `npm run build`, deploy command `npx wrangler deploy` (Workers) or output directory `dist` (Pages). `wrangler.jsonc` already configures SPA routing.
 - **GitHub Pages / other static hosts**: copy `dist/index.html` to `dist/404.html` after building so deep links work.
 - **Nginx**: `location / { try_files $uri /index.html; }`
 

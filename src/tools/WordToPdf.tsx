@@ -11,6 +11,43 @@ import { htmlToPdf, printHtml, readDocx, type DocxContent, type PdfPageOptions }
 
 type Margin = 'narrow' | 'normal' | 'wide';
 const MARGINS: Record<Margin, number> = { narrow: 36, normal: 72, wide: 108 };
+const MARGIN_LABEL: Record<Margin, string> = { narrow: '0.5 in', normal: '1 in', wide: '1.5 in' };
+const PAGE_POINTS = { A4: [595.28, 841.89], LETTER: [612, 792] } as const;
+const BODY_PT = 11;
+
+/**
+ * Scaled page preview that follows the PDF settings: the paper has the chosen
+ * size and orientation, margins are drawn to scale, text is sized relative to
+ * the page width so line wrapping roughly matches the PDF, and a faint line
+ * marks where each page ends.
+ */
+function PagePreview({ html, opts }: { html: string; opts: PdfPageOptions }) {
+  const [w, h] = PAGE_POINTS[opts.pageSize];
+  const [pw, ph] = opts.orientation === 'landscape' ? [h, w] : [w, h];
+  const pct = (v: number) => `${(v / pw) * 100}%`;
+  const pageHeight = `${(ph / pw) * 100}cqw`;
+  return (
+    <div className="mx-auto" style={{ maxWidth: pw * 1.1, containerType: 'inline-size' }}>
+      <div
+        className="relative bg-white shadow-md"
+        style={{
+          aspectRatio: `${pw} / ${ph}`,
+          backgroundImage: `linear-gradient(to bottom, transparent calc(100% - 1px), rgb(148 163 184 / 0.6) calc(100% - 1px))`,
+          backgroundSize: `100% ${pageHeight}`,
+          padding: pct(opts.margin),
+        }}
+      >
+        <article
+          className="docx-preview relative text-slate-900 outline-1 outline-sky-300/60 outline-dashed"
+          style={{ fontSize: `${(BODY_PT / pw) * 100}cqw`, lineHeight: 1.35, overflowWrap: 'anywhere' }}
+          aria-label="Document preview"
+          // Sanitized in readDocx: no scripts, event handlers or unsafe links.
+          dangerouslySetInnerHTML={{ __html: html || '<p><em>This document appears to be empty.</em></p>' }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function WordToPdf() {
   const tool = getTool('word-to-pdf');
@@ -127,17 +164,17 @@ export default function WordToPdf() {
           {n}
         </p>
       ))}
-      <div className="card overflow-hidden bg-slate-100 p-3 sm:p-6 dark:bg-white/5">
-        {doc ? (
-          <article
-            className="docx-preview mx-auto max-h-[70vh] w-full max-w-[680px] overflow-y-auto bg-white px-6 py-8 text-[15px] leading-relaxed text-slate-900 shadow-md sm:px-12 sm:py-12"
-            aria-label="Document preview"
-            // Sanitized in readDocx: no scripts, event handlers or unsafe links.
-            dangerouslySetInnerHTML={{ __html: doc.html || '<p><em>This document appears to be empty.</em></p>' }}
-          />
-        ) : (
-          <div className="mx-auto h-80 max-w-[680px] animate-pulse rounded bg-white/70 dark:bg-white/10" />
-        )}
+      <div className="card overflow-hidden bg-slate-100 dark:bg-white/5">
+        <p className="border-b border-slate-200 px-4 py-2.5 text-xs font-medium text-slate-500 dark:border-white/10 dark:text-slate-400" aria-live="polite">
+          Preview · {pageSize === 'A4' ? 'A4' : 'Letter'} · {orientation === 'portrait' ? 'Portrait' : 'Landscape'} · {MARGIN_LABEL[margin]} margins
+        </p>
+        <div className="max-h-[75vh] overflow-y-auto p-3 sm:p-6">
+          {doc ? (
+            <PagePreview html={doc.html} opts={opts} />
+          ) : (
+            <div className="mx-auto aspect-[1/1.414] max-w-[560px] animate-pulse rounded bg-white/70 dark:bg-white/10" />
+          )}
+        </div>
       </div>
     </ToolLayout>
   );

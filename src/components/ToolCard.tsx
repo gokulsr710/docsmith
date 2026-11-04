@@ -23,9 +23,9 @@ export function ToolCard({ tool, onClick }: { tool: Tool; onClick?: () => void }
   );
 }
 
-export function ToolGrid({ tools }: { tools: Tool[] }) {
+export function ToolGrid({ tools, wide }: { tools: Tool[]; wide?: boolean }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+    <div className={`grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 ${wide ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
       {tools.map((t) => (
         <ToolCard key={t.id} tool={t} />
       ))}

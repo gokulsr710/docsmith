@@ -35,7 +35,7 @@ export function fileFormat(file: File): string {
   return (file.type.split('/')[1] || 'file').toUpperCase();
 }
 
-export type AcceptKind = 'pdf' | 'image' | 'jpg' | 'png' | 'webp';
+export type AcceptKind = 'pdf' | 'image' | 'jpg' | 'png' | 'webp' | 'docx';
 
 const JPG = { mimes: ['image/jpeg', 'image/jpg', 'image/pjpeg'], exts: ['jpg', 'jpeg', 'jfif'] };
 const PNG = { mimes: ['image/png'], exts: ['png'] };
@@ -43,6 +43,7 @@ const WEBP = { mimes: ['image/webp'], exts: ['webp'] };
 
 const KIND_RULES: Record<AcceptKind, { mimes: string[]; exts: string[] }> = {
   pdf: { mimes: ['application/pdf'], exts: ['pdf'] },
+  docx: { mimes: ['application/vnd.openxmlformats-officedocument.wordprocessingml.document'], exts: ['docx'] },
   jpg: JPG,
   png: PNG,
   webp: WEBP,
@@ -65,7 +66,7 @@ export function matchesKind(file: File, kinds: AcceptKind[]): boolean {
 }
 
 export function acceptLabel(kinds: AcceptKind[]): string {
-  const labels: Record<AcceptKind, string> = { pdf: 'PDF', image: 'JPG, PNG, WEBP', jpg: 'JPG', png: 'PNG', webp: 'WEBP' };
+  const labels: Record<AcceptKind, string> = { pdf: 'PDF', image: 'JPG, PNG, WEBP', jpg: 'JPG', png: 'PNG', webp: 'WEBP', docx: 'Word (.docx)' };
   return kinds.map((k) => labels[k]).join(', ');
 }
 
@@ -75,7 +76,11 @@ export function partitionFiles(files: File[], kinds: AcceptKind[]) {
   const valid: File[] = [];
   const rejected: { file: File; reason: string }[] = [];
   for (const f of files) {
-    if (!matchesKind(f, kinds)) rejected.push({ file: f, reason: `Unsupported format. Use ${acceptLabel(kinds)}.` });
+    if (!matchesKind(f, kinds))
+      rejected.push({
+        file: f,
+        reason: kinds.includes('docx') && /\.doc$/i.test(f.name) ? 'Old .doc files aren’t supported. Open it in Word and “Save As” .docx first.' : `Unsupported format. Use ${acceptLabel(kinds)}.`,
+      });
     else if (f.size === 0) rejected.push({ file: f, reason: 'The file is empty.' });
     else if (f.size > MAX_FILE_SIZE) rejected.push({ file: f, reason: `File is larger than ${formatBytes(MAX_FILE_SIZE)}.` });
     else valid.push(f);

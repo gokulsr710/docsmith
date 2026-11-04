@@ -34,8 +34,8 @@ export default function Home() {
   const toast = useToast();
 
   const onFiles = (files: File[]) => {
-    const supported = files.filter((f) => matchesKind(f, ['pdf', 'image']));
-    if (supported.length < files.length) toast.error(`${files.length - supported.length} unsupported file(s) skipped`, 'Upload PDF, JPG, PNG or WEBP files.');
+    const supported = files.filter((f) => matchesKind(f, ['pdf', 'image', 'docx']));
+    if (supported.length < files.length) toast.error(`${files.length - supported.length} unsupported file(s) skipped`, 'Upload PDF, Word (.docx), JPG, PNG or WEBP files.');
     if (supported.length) setPending(supported);
   };
 
@@ -61,7 +61,7 @@ export default function Home() {
             {pending ? (
               <ToolChooser files={pending} onCancel={() => setPending(null)} />
             ) : (
-              <Dropzone accept={acceptAttr(['pdf', 'image'])} onFiles={onFiles} size="lg" title="drop PDFs or images here" hint="PDF, JPG, PNG and WEBP supported" />
+              <Dropzone accept={acceptAttr(['pdf', 'image', 'docx'])} onFiles={onFiles} size="lg" title="drop PDFs or images here" hint="PDF, Word, JPG, PNG and WEBP supported" />
             )}
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function Home() {
 
       {/* Popular tools */}
       <Section id="popular" eyebrow="Popular" title="Most-used tools" subtitle="The tools people reach for every day.">
-        <ToolGrid tools={POPULAR_TOOLS} />
+        <ToolGrid tools={POPULAR_TOOLS} wide />
       </Section>
 
       {/* How it works */}
@@ -205,8 +205,10 @@ function ToolChooser({ files, onCancel }: { files: File[]; onCancel: () => void 
   const navigate = useNavigate();
   const pdfs = files.filter((f) => matchesKind(f, ['pdf']));
   const images = files.filter((f) => matchesKind(f, ['image']));
+  const words = files.filter((f) => matchesKind(f, ['docx']));
 
   let suggestions: { tool: Tool; files: File[] }[] = [];
+  if (words.length) suggestions.push({ tool: getTool('word-to-pdf'), files: words.slice(0, 1) });
   if (images.length) {
     suggestions.push({ tool: getTool('image-to-pdf'), files: images });
     suggestions.push({ tool: getTool('compress-image'), files: images });
@@ -220,7 +222,7 @@ function ToolChooser({ files, onCancel }: { files: File[]; onCancel: () => void 
   if (pdfs.length) {
     if (pdfs.length > 1) suggestions.push({ tool: getTool('merge-pdf'), files: pdfs });
     suggestions.push(
-      ...['compress-pdf', 'pdf-to-jpg', 'split-pdf', 'rotate-pdf', 'organize-pdf', 'delete-pages', 'extract-images'].map((id) => ({ tool: getTool(id), files: pdfs.slice(0, 1) })),
+      ...['pdf-to-word', 'compress-pdf', 'pdf-to-jpg', 'split-pdf', 'rotate-pdf', 'organize-pdf', 'delete-pages', 'extract-images'].map((id) => ({ tool: getTool(id), files: pdfs.slice(0, 1) })),
     );
     if (pdfs.length === 1) suggestions.push({ tool: getTool('merge-pdf'), files: pdfs });
   }
@@ -231,7 +233,7 @@ function ToolChooser({ files, onCancel }: { files: File[]; onCancel: () => void 
     navigate(s.tool.path);
   };
 
-  const summary = [pdfs.length && pluralize(pdfs.length, 'PDF'), images.length && pluralize(images.length, 'image')].filter(Boolean).join(' and ');
+  const summary = [pdfs.length && pluralize(pdfs.length, 'PDF'), words.length && pluralize(words.length, 'Word file'), images.length && pluralize(images.length, 'image')].filter(Boolean).join(' and ');
 
   return (
     <div className="card animate-scale-in p-4 sm:p-6">

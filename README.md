@@ -2,13 +2,15 @@
 
 A modern, mobile-first document toolkit. Every tool runs **entirely in the browser**, so files are never uploaded to a server.
 
-Built with React 18, TypeScript, Tailwind CSS 4, Vite 6, pdf-lib, PDF.js, JSZip, dnd-kit and Lucide icons.
+Built with React 18, TypeScript, Tailwind CSS 4, Vite 6, pdf-lib, PDF.js, mammoth, pdfmake, docx, JSZip, dnd-kit and Lucide icons.
 
 ## Features
 
 | PDF tools | Image tools |
 | --- | --- |
 | Image to PDF (reorder, rotate, A4/Letter/Original, orientation, margins, fit/fill) | JPG → PNG, PNG → JPG, WEBP → JPG, WEBP → PNG |
+| Word to PDF (.docx, page size, orientation, margins, print fallback) | |
+| PDF to Word (editable text with headings and images, or exact layout) | |
 | PDF to JPG / PDF to PNG (72/150/300 dpi, page ranges) | Image Compressor (quality, format, max size, before/after) |
 | Merge PDF (drag to reorder) | Resize Image (percentage or pixels, keep aspect) |
 | Split PDF (ranges, every page, fixed chunks, extract to one file) | Crop Image (free or fixed aspect ratios, keyboard support) |
@@ -49,6 +51,9 @@ src/
     files.ts              validation, formatting, downloads, ZIP
     image.ts              canvas helpers (draw/rotate/crop/scale, encode, EXIF orientation)
     pdf.ts                PDF.js loader, page rendering, thumbnails, page-range parser
+    pdfImages.ts          decode images embedded in PDFs
+    word.ts               Word ⇄ PDF conversion (mammoth/pdfmake and PDF.js/docx)
+    inapp.ts              in-app browser (Instagram etc.) detection and download fallback
     tools.ts              tool registry (titles, routes, icons, search)
     seo.ts                per-page title/description, site constants
   components/
@@ -91,6 +96,8 @@ No backend, database or environment variables are required.
 - Files are read with browser file APIs, processed in memory, and released when the user clears files, starts over, or closes the tab. Nothing is persisted except the theme preference.
 - “Recommended” and “Extreme” PDF compression render pages to JPEG images, so text in the compressed copy is no longer selectable. “Basic” is lossless. If compression would not reduce the size, the original is returned and the user is told.
 - PNG output from the image compressor is saved as WEBP (or JPG on browsers without WEBP encoding), because canvas PNG encoding is lossless and would not shrink the file.
+- Word to PDF keeps text, headings, lists, tables, links and images; text boxes, columns and headers/footers are simplified. The bundled PDF font covers Latin, Greek and Cyrillic: for Hindi, Tamil, Arabic, Chinese and similar scripts the tool shows a warning and offers the browser’s “Print / Save as PDF”. Old `.doc` files must be re-saved as `.docx`.
+- PDF to Word rebuilds paragraphs, headings (from font size), bold/italic and images. Scanned pages have no text, so they are inserted as images (no OCR). “Exact layout” mode places every page as an image.
 - Password-protected PDFs are detected and reported. They must be unlocked first.
 - Canvas sizes are capped at about 16 megapixels so very large images and high-DPI renders don’t crash iOS Safari.
 - Very large documents (hundreds of pages) depend on device memory, especially on phones.

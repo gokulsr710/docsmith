@@ -7,6 +7,8 @@ import {
   FileMinus,
   FileOutput,
   FileStack,
+  FileText,
+  FileType,
   ImageDown,
   Images,
   Minimize2,
@@ -52,6 +54,28 @@ export const TOOLS: Tool[] = [
     icon: FileImage,
     tint: RED,
     keywords: 'jpg png webp photo picture combine images convert to pdf',
+    popular: true,
+  },
+  {
+    id: 'word-to-pdf',
+    path: '/word-to-pdf',
+    title: 'Word to PDF',
+    description: 'Convert Word documents (.docx) into PDF files.',
+    categories: ['pdf'],
+    icon: FileText,
+    tint: BLUE,
+    keywords: 'word docx doc office document convert to pdf',
+    popular: true,
+  },
+  {
+    id: 'pdf-to-word',
+    path: '/pdf-to-word',
+    title: 'PDF to Word',
+    description: 'Turn PDFs into editable Word documents (.docx).',
+    categories: ['pdf'],
+    icon: FileType,
+    tint: INDIGO,
+    keywords: 'pdf to word docx doc editable convert office',
     popular: true,
   },
   {
@@ -239,7 +263,7 @@ export const getTool = (id: string) => {
   return t;
 };
 
-export const POPULAR_TOOLS = ['image-to-pdf', 'pdf-to-jpg', 'merge-pdf', 'compress-pdf', 'split-pdf', 'jpg-to-png', 'compress-image', 'resize-image'].map(getTool);
+export const POPULAR_TOOLS = ['image-to-pdf', 'word-to-pdf', 'pdf-to-word', 'pdf-to-jpg', 'merge-pdf', 'compress-pdf', 'split-pdf', 'jpg-to-png', 'compress-image', 'resize-image'].map(getTool);
 
 export function searchTools(query: string, category?: ToolCategory | 'all'): Tool[] {
   const q = query.trim().toLowerCase();

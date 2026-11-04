@@ -27,6 +27,8 @@ const CompressImage = lazy(() => import('./tools/CompressImage'));
 const ResizeImage = lazy(() => import('./tools/ResizeImage'));
 const CropImage = lazy(() => import('./tools/CropImage'));
 const RotateImage = lazy(() => import('./tools/RotateImage'));
+const WordToPdf = lazy(() => import('./tools/WordToPdf'));
+const PdfToWord = lazy(() => import('./tools/PdfToWord'));
 
 export default function App() {
   return (
@@ -45,6 +47,8 @@ export default function App() {
                 <Route path="terms" element={<Terms />} />
 
                 <Route path="image-to-pdf" element={<ImageToPdf />} />
+                <Route path="word-to-pdf" element={<WordToPdf />} />
+                <Route path="pdf-to-word" element={<PdfToWord />} />
                 <Route path="pdf-to-jpg" element={<PdfToImage key="jpg" format="jpg" />} />
                 <Route path="pdf-to-png" element={<PdfToImage key="png" format="png" />} />
                 <Route path="merge-pdf" element={<MergePdf />} />

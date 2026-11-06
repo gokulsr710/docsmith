@@ -60,11 +60,11 @@ export const TOOLS: Tool[] = [
     id: 'word-to-pdf',
     path: '/word-to-pdf',
     title: 'Word to PDF',
-    description: 'Convert Word documents (.docx) into PDF files.',
+    description: 'Convert Word documents (.docx) into PDF files that keep the original layout.',
     categories: ['pdf'],
     icon: FileText,
     tint: BLUE,
-    keywords: 'word docx doc office document convert to pdf',
+    keywords: 'word docx doc office document convert to pdf layout columns ieee paper',
     popular: true,
   },
   {

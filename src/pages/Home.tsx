@@ -45,14 +45,14 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,rgb(99_102_241/0.16),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgb(99_102_241/0.22),transparent_60%)]"
+          className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,rgb(16_185_129/0.16),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgb(16_185_129/0.22),transparent_60%)]"
         />
         <div className="mx-auto max-w-4xl px-4 pt-10 pb-14 text-center sm:px-6 sm:pt-16 sm:pb-20">
           <p className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-medium text-slate-600 shadow-soft backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
             <span className="size-1.5 rounded-full bg-emerald-500" /> 100% free · No sign-up · Files stay on your device
           </p>
           <h1 className="mt-5 animate-fade-up text-[2rem] leading-[1.1] font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl">
-            All Your PDF &amp; Image Tools <span className="bg-gradient-to-r from-brand-600 to-violet-500 bg-clip-text text-transparent">in One Place</span>
+            All Your PDF &amp; Image Tools <span className="bg-gradient-to-r from-brand-600 to-accent-600 dark:from-brand-400 dark:to-accent-400 bg-clip-text text-transparent">in One Place</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl animate-fade-up text-base text-pretty text-slate-500 sm:mt-5 sm:text-lg dark:text-slate-400">
             Convert, merge, split, compress and edit PDFs and images in seconds. Everything runs right in your browser, so your documents are never uploaded anywhere.

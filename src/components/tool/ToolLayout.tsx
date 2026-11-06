@@ -176,7 +176,7 @@ export function ToolLayout({
 
           {/* Mobile sticky action bar (and desktop bar for tools without a settings panel). */}
           <div
-            className={`fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/90 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl dark:border-white/10 dark:bg-[#0b0d12]/90 ${
+            className={`fixed inset-x-0 bottom-0 z-30 border-t border-slate-200 bg-white/90 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl dark:border-white/10 dark:bg-ink/90 ${
               settings ? 'lg:hidden' : 'lg:static lg:z-auto lg:mt-2 lg:border-0 lg:bg-transparent lg:p-0 lg:backdrop-blur-none'
             }`}
           >

@@ -45,7 +45,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,rgb(16_185_129/0.16),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgb(16_185_129/0.22),transparent_60%)]"
+          className="pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,rgb(99_91_255/0.16),transparent_60%)] dark:bg-[radial-gradient(ellipse_at_top,rgb(99_91_255/0.24),transparent_60%)]"
         />
         <div className="mx-auto max-w-4xl px-4 pt-10 pb-14 text-center sm:px-6 sm:pt-16 sm:pb-20">
           <p className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1 text-xs font-medium text-slate-600 shadow-soft backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
